@@ -34,44 +34,55 @@ const BookCove = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen">
-      <h1 className="text-3xl font-bold mb-8">BookCove</h1>
-      <form onSubmit={handleSubmit}>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+      <h1 className="text-5xl font-bold mb-8">BookCove</h1>
+      <form onSubmit={handleSubmit} className="max-w-md w-full">
         <label htmlFor="search-input" className="sr-only">
           Search for a book
         </label>
-        <div className="relative rounded-md shadow-sm">
+        <div className="relative rounded border-gray-700 shadow-sm">
           <input
             id="search-input"
             type="text"
             value={searchTerm}
             onChange={handleSearch}
-            className="block w-full pr-10 sm:text-sm rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 border-gray-300"
+            className="block w-full px-3 py-2 sm:text-sm rounded focus:outline-none focus:ring-blue-500 focus:border-blue-500 placeholder-gray-500"
             placeholder="Search for a book"
           />
           <button
             type="submit"
-            className="absolute inset-y-0 right-0 px-4 py-2 bg-blue-500 text-white font-medium rounded-md hover:bg-blue-600 focus:outline-none focus:ring-blue-500 focus:ring-offset-blue-200 focus:ring-2"
+            className="absolute top-0 right-0 px-4 py-2 bg-blue-500 text-white font-bold rounded hover:bg-blue-700 focus:outline-none focus:ring-blue-500 focus:ring-offset-blue-200 focus:ring-2"
           >
             Search
           </button>
         </div>
       </form>
       {searchResults.length > 0 && (
-        <ul>
+        <ul className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           {searchResults?.map((book) => (
-            <li key={book.id}>
-              <h2>{book.title}</h2>
-              <p>By {book.authors.join(", ")}</p>
+            <li
+              key={book.id}
+              className="flex m-2 bg-white rounded-lg overflow-hidden shadow-lg"
+            >
               {book.thumbnail && (
-                <Image
-                  src={book.thumbnail}
-                  alt={book.title}
-                  width={100}
-                  height={150}
-                />
+                <div className="flex-shrink-0 relative w-40 h-60">
+                  <Image
+                    src={book.thumbnail}
+                    alt={book.title}
+                    width={200}
+                    height={150}
+                    className="rounded-l-lg mx-2 my-2"
+                  />
+                </div>
               )}
-              <p>{book.description}</p>
+
+              <div className="p-6 flex-grow">
+                <h2 className="text-lg font-bold">{book.title}</h2>
+                <p className="text-gray-600">By {book.authors.join(", ")}</p>
+                <p className="mt-4 text-sm text-gray-900 leading-snug">
+                  {book.description}
+                </p>
+              </div>
             </li>
           ))}
         </ul>
