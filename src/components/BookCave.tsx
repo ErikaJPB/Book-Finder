@@ -46,12 +46,12 @@ const BookCove = () => {
             type="text"
             value={searchTerm}
             onChange={handleSearch}
-            className="block w-full px-3 py-2 sm:text-sm rounded focus:outline-none focus:ring-blue-500 focus:border-blue-500 placeholder-gray-500"
+            className="block w-full px-3 py-2 sm:text-sm rounded focus:outline-none focus:ring-gray-500 focus:border-gray-500 placeholder-gray-500"
             placeholder="Search for a book"
           />
           <button
             type="submit"
-            className="absolute top-0 right-0 px-4 py-2 bg-blue-500 text-white font-bold rounded hover:bg-blue-700 focus:outline-none focus:ring-blue-500 focus:ring-offset-blue-200 focus:ring-2"
+            className="absolute top-0 right-0 px-4 py-2 bg-gray-800 text-white font-bold rounded hover:bg-gray-500 focus:outline-none focus:ring-gray-400 focus:ring-offset-blue-200 focus:ring-2"
           >
             Search
           </button>
