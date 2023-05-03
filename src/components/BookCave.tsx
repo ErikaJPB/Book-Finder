@@ -1,5 +1,18 @@
 import Image from "next/image";
 import { useState } from "react";
+import { auth, firestore, collection, addDoc } from "../../firebase";
+import { AiOutlineHeart } from "react-icons/ai";
+
+async function addToFavorites(bookId: string) {
+  const userId = auth.currentUser?.uid;
+
+  const favoritesRef = collection(firestore, "favorites");
+
+  await addDoc(favoritesRef, {
+    userId: userId,
+    bookId: bookId,
+  });
+}
 
 interface Book {
   id: string;
@@ -79,6 +92,9 @@ const BookCove = () => {
               <div className="p-6 flex-grow">
                 <h2 className="text-lg font-bold">{book.title}</h2>
                 <p className="text-gray-600">By {book.authors.join(", ")}</p>
+                <button onClick={() => addToFavorites(book.id)}>
+                  <AiOutlineHeart className="inline-block" />
+                </button>
                 <p className="mt-4 text-sm text-gray-900 leading-snug">
                   {book.description}
                 </p>
