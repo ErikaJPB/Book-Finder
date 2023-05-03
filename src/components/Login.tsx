@@ -34,15 +34,15 @@ function Login() {
 
   return (
     <div className="bg-white min-h-screen flex flex-col justify-center">
-      <div className="max-w-md mx-auto p-6 bg-gray-800 rounded-lg shadow-md">
-        <h1 className="text-2xl font-bold mb-6 text-white text-center ">
+      <div className="max-w-md mx-auto p-6 bg-gray-100 rounded-lg shadow-md">
+        <h1 className="text-2xl font-bold mb-6 text-gray-700 text-center ">
           Login
         </h1>
         <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
           <div>
             <label
               htmlFor="email"
-              className="block font-medium mb-1 text-white"
+              className="block font-medium mb-1 text-gray-700"
             >
               Email
             </label>
@@ -52,13 +52,13 @@ function Login() {
               id="email"
               value={loginState.email}
               onChange={handleChange}
-              className="w-full border-gray-400 py-2 px-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-700"
+              className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-gray-700 focus:border-gray-700 sm:text-sm"
             />
           </div>
           <div>
             <label
               htmlFor="password"
-              className="block font-medium mb-1 text-white"
+              className="block font-medium mb-1 text-gray-700"
             >
               Password
             </label>
@@ -68,7 +68,7 @@ function Login() {
               id="password"
               value={loginState.password}
               onChange={handleChange}
-              className="w-full border-gray-400 py-2 px-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-700"
+              className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-gray-700 focus:border-gray-700 sm:text-sm"
             />
           </div>
           <button
