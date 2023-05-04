@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import { auth, firestore, collection, addDoc } from "../../firebase";
-import { AiOutlineHeart } from "react-icons/ai";
+import { BsFillBookmarkHeartFill } from "react-icons/bs";
 
 async function addToFavorites(bookId: string) {
   const userId = auth.currentUser?.uid;
@@ -93,7 +93,7 @@ const BookCove = () => {
                 <h2 className="text-lg font-bold">{book.title}</h2>
                 <p className="text-gray-600">By {book.authors.join(", ")}</p>
                 <button onClick={() => addToFavorites(book.id)}>
-                  <AiOutlineHeart className="inline-block" />
+                  <BsFillBookmarkHeartFill className="inline-block fill-current text-gray-900 w-6 h-6 " />
                 </button>
                 <p className="mt-4 text-sm text-gray-900 leading-snug">
                   {book.description}

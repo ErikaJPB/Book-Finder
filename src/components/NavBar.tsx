@@ -1,9 +1,21 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { MouseEvent } from "react";
+import SignOut from "./SignOut";
+import { auth } from "../../firebase";
+import { useEffect, useState } from "react";
 
 function NavBar() {
   const router = useRouter();
+  const { currentUser } = auth;
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    if (currentUser) {
+      setIsAuthenticated(true);
+    } else {
+      setIsAuthenticated(false);
+    }
+  }, [currentUser]);
 
   return (
     <nav className="bg-gray-800">
@@ -77,19 +89,25 @@ function NavBar() {
                 >
                   Contact
                 </Link>
-                <Link
-                  href="/login"
-                  className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                >
-                  Login
-                </Link>
+                {currentUser ? (
+                  <SignOut />
+                ) : (
+                  <>
+                    <Link
+                      href="/login"
+                      className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                    >
+                      Login
+                    </Link>
 
-                <Link
-                  href="/signup"
-                  className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                >
-                  Sign Up
-                </Link>
+                    <Link
+                      href="/signup"
+                      className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                    >
+                      Sign Up
+                    </Link>
+                  </>
+                )}
               </div>
             </div>
           </div>

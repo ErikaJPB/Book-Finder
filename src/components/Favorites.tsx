@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { auth, firestore } from "../../firebase";
 import { collection, query, where, getDocs } from "firebase/firestore";
-import { AiOutlineHeart } from "react-icons/ai";
+import { BsFillBookmarkHeartFill } from "react-icons/bs";
 import Link from "next/link";
 
 type Book = {
@@ -83,7 +83,7 @@ function Favorites() {
                     className="bg-transparent border border-white rounded-full px-2 py-1 text-sm font-semibold mt-4"
                     disabled
                   >
-                    <AiOutlineHeart className="inline-block mr-1" />
+                    <BsFillBookmarkHeartFill className="inline-block fill-current text-gray-900 w-6 h-6 " />
                     Favorite
                   </button>
                 </div>

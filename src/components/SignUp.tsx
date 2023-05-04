@@ -1,25 +1,21 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import {
   getAuth,
   createUserWithEmailAndPassword,
-  updateProfile,
+  signInWithPopup,
+  GoogleAuthProvider,
 } from "firebase/auth";
 import { auth } from "../../firebase";
 
 interface SignUpState {
   displayName: string;
   email: string;
-  password: string;
-  confirmPassword: string;
 }
 
 function SignUp() {
   const [signUpState, setSignUpState] = useState<SignUpState>({
     displayName: "",
     email: "",
-    password: "",
-    confirmPassword: "",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,33 +26,13 @@ function SignUp() {
     });
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (signUpState.password !== signUpState.confirmPassword) {
-      alert("Passwords do not match");
-      return;
-    }
+  const handleSignUpWithGoogle = async () => {
     try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        signUpState.email,
-        signUpState.password
-      );
-
-      const user = userCredential.user;
-      await updateProfile(user, {
-        displayName: signUpState.displayName,
-      });
-      console.log(user);
-      alert("Sign Up Successful");
-      setSignUpState({
-        displayName: "",
-        email: "",
-        password: "",
-        confirmPassword: "",
-      });
+      const provider = new GoogleAuthProvider();
+      await signInWithPopup(auth, provider);
+      console.log("Sign Up with Google Successful");
     } catch (error) {
-      console.error("Error signing up", error);
+      console.error("Error signing up with Google", error);
     }
   };
 
@@ -70,7 +46,7 @@ function SignUp() {
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-gray-100 py-8 px-4 shadow sm:rounded-lg sm:px-10">
-          <form className="space-y-6" onSubmit={handleSubmit}>
+          <form className="space-y-6">
             <div>
               <label
                 htmlFor="displayName"
@@ -114,53 +90,12 @@ function SignUp() {
             </div>
 
             <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Password
-              </label>
-              <div className="mt-1">
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  autoComplete="off"
-                  required
-                  value={signUpState.password}
-                  onChange={handleChange}
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-gray-700 focus:border-gray-700 sm:text-sm"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label
-                htmlFor="confirmPassword"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Confirm Password
-              </label>
-              <div className="mt-1">
-                <input
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  type="password"
-                  autoComplete="off"
-                  required
-                  value={signUpState.confirmPassword}
-                  onChange={handleChange}
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-gray-700 focus:border-gray-700 sm:text-sm"
-                />
-              </div>
-            </div>
-
-            <div>
               <button
-                type="submit"
+                type="button"
+                onClick={handleSignUpWithGoogle}
                 className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gray-700 hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-700"
               >
-                Sign Up
+                Sign Up with Google
               </button>
             </div>
           </form>
