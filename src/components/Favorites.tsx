@@ -35,6 +35,7 @@ async function getBookDetails(bookId: string): Promise<Book> {
 
 function Favorites() {
   const [favorites, setFavorites] = useState<Book[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const userId = auth.currentUser?.uid;
 
   useEffect(() => {
@@ -42,6 +43,7 @@ function Favorites() {
       const bookIds = await getFavorites(userId!);
       const bookDetails = await Promise.all(bookIds.map(getBookDetails));
       setFavorites(bookDetails);
+      setIsLoading(false);
     }
 
     if (userId) {
@@ -53,7 +55,9 @@ function Favorites() {
     <div className="bg-white text-gray-700 py-8">
       <div className="container mx-auto">
         <h1 className="text-3xl font-bold mb-8 text-center">Favorite Books</h1>
-        {favorites.length > 0 ? (
+        {isLoading ? (
+          <p className="text-center text-gray-700">Loading favorites...</p>
+        ) : favorites.length > 0 ? (
           <ul className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {favorites.map((book) => (
               <li

@@ -6,12 +6,12 @@ type SignOutButtonProps = {
   onSignOut: () => void;
 };
 
-function SignOut({ onSignOut }: SignOutButtonProps) {
+function SignOut(props: SignOutButtonProps) {
   const router = useRouter();
   const handleSignOut = async () => {
     try {
       await auth.signOut();
-      onSignOut();
+      props.onSignOut();
       router.push("/login");
     } catch (error) {
       console.error(error);

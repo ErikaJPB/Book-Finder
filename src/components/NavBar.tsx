@@ -9,6 +9,15 @@ function NavBar() {
   const { currentUser } = auth;
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
+  const handleSignOut = async () => {
+    try {
+      await auth.signOut();
+      router.push("/login");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     if (currentUser) {
       setIsAuthenticated(true);
@@ -71,12 +80,14 @@ function NavBar() {
                 >
                   Favorites
                 </Link>
-                <Link
-                  href="/profile"
-                  className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                >
-                  Profile
-                </Link>
+                {isAuthenticated && (
+                  <Link
+                    href="/profile"
+                    className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                  >
+                    Profile
+                  </Link>
+                )}
                 <Link
                   href="/about"
                   className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
@@ -90,7 +101,7 @@ function NavBar() {
                   Contact
                 </Link>
                 {currentUser ? (
-                  <SignOut />
+                  <SignOut onSignOut={handleSignOut} />
                 ) : (
                   <>
                     <Link
@@ -127,12 +138,14 @@ function NavBar() {
           >
             Favorites
           </Link>
-          <Link
-            href="/profile"
-            className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-          >
-            Profile
-          </Link>
+          {isAuthenticated && (
+            <Link
+              href="/profile"
+              className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+            >
+              Profile
+            </Link>
+          )}
           <Link
             href="/about"
             className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
@@ -145,18 +158,24 @@ function NavBar() {
           >
             Contact
           </Link>
-          <Link
-            href="/login"
-            className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-          >
-            Login
-          </Link>
-          <Link
-            href="/signup"
-            className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-          >
-            Sign Up
-          </Link>
+          {currentUser ? (
+            <SignOut onSignOut={handleSignOut} />
+          ) : (
+            <>
+              <Link
+                href="/login"
+                className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+              >
+                Login
+              </Link>
+              <Link
+                href="/signup"
+                className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+              >
+                Sign Up
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </nav>
