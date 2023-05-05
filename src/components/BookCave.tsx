@@ -2,6 +2,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { auth, firestore, collection, addDoc } from "../../firebase";
 import { BsFillBookmarkHeartFill } from "react-icons/bs";
+import { BsSearch } from "react-icons/bs";
 
 async function addToFavorites(bookId: string) {
   const userId = auth.currentUser?.uid;
@@ -48,12 +49,12 @@ const BookCove = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <h1 className="text-5xl font-bold mb-8">BookCove</h1>
-      <form onSubmit={handleSubmit} className="max-w-md w-full">
-        <label htmlFor="search-input" className="sr-only">
+      <h1 className="text-5xl font-bold mb-10 text-gray-700 my-6">BookCove</h1>
+      <form onSubmit={handleSubmit} className="max-w-md w-full px-2 py-2">
+        <label htmlFor="search-input" className="sr-only ">
           Search for a book
         </label>
-        <div className="relative rounded border-gray-700 shadow-sm">
+        <div className="relative rounded border-gray-700 shadow-sm ">
           <input
             id="search-input"
             type="text"
@@ -64,9 +65,9 @@ const BookCove = () => {
           />
           <button
             type="submit"
-            className="absolute top-0 right-0 px-4 py-2 bg-gray-800 text-white font-bold rounded hover:bg-gray-500 focus:outline-none focus:ring-gray-400 focus:ring-offset-blue-200 focus:ring-2"
+            className="absolute top-1 right-1 bottom-1 px-3 py-2  bg-white text-gray-700 font-bold rounded hover:bg-gray-200 focus:outline-none focus:ring-gray-400 focus:ring-offset-blue-200 focus:ring-2"
           >
-            Search
+            <BsSearch />
           </button>
         </div>
       </form>
@@ -82,8 +83,9 @@ const BookCove = () => {
                   <Image
                     src={book.thumbnail}
                     alt={book.title}
-                    width={200}
-                    height={150}
+                    width={100}
+                    height={100}
+                    quality={100}
                     className="rounded-l-lg mx-2 my-2"
                   />
                 </div>
