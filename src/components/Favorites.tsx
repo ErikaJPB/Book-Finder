@@ -1,7 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { auth, firestore } from "../../firebase";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  doc,
+  deleteDoc,
+} from "firebase/firestore";
 import { BsFillBookmarkHeartFill } from "react-icons/bs";
+import { AiOutlineClose } from "react-icons/ai";
 import Link from "next/link";
 
 type Book = {
@@ -33,6 +41,34 @@ async function getBookDetails(bookId: string): Promise<Book> {
   return book;
 }
 
+async function removeFavorite(bookId: string) {
+  const userId = auth.currentUser?.uid;
+  console.log("userId:", userId);
+
+  // Verificar que el documento pertenece al usuario autenticado antes de eliminarlo
+  const favoritesRef = collection(firestore, "favorites");
+  const q = query(
+    favoritesRef,
+    where("bookId", "==", bookId),
+    where("userId", "==", userId)
+  );
+  const querySnapshot = await getDocs(q);
+  if (querySnapshot.empty) {
+    console.log(`Favorite ${bookId} not found for user ${userId}`);
+    return;
+  }
+  const docToDelete = querySnapshot.docs[0].ref;
+
+  await deleteDoc(docToDelete);
+  console.log(`Removed favorite ${bookId} for user ${userId}`);
+}
+
+export async function fetchFavorites(userId: string) {
+  const bookIds = await getFavorites(userId);
+  const bookDetails = await Promise.all(bookIds.map(getBookDetails));
+  return bookDetails;
+}
+
 function Favorites() {
   const [favorites, setFavorites] = useState<Book[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -51,6 +87,18 @@ function Favorites() {
     }
   }, [userId]);
 
+  const handleRemoveFavorite = async (bookId: string) => {
+    const userId = auth.currentUser?.uid;
+    if (!userId) {
+      console.log("No user is currently logged in.");
+      return;
+    }
+
+    await removeFavorite(bookId);
+    const updatedFavorites = favorites.filter((book) => book.id !== bookId);
+    setFavorites(updatedFavorites);
+  };
+
   return (
     <div className="bg-white text-gray-700 py-8">
       <div className="container mx-auto">
@@ -62,10 +110,10 @@ function Favorites() {
             {favorites.map((book) => (
               <li
                 key={book.id}
-                className="bg-white rounded-lg overflow-hidden shadow-lg"
+                className="bg-white rounded-lg overflow-hidden shadow-lg relative"
               >
                 {book.thumbnail && (
-                  <div className="relative w-full h-40">
+                  <div className="w-full h-40">
                     <Link href={`/books/${book.id}`}>
                       <img
                         src={book.thumbnail}
@@ -82,13 +130,23 @@ function Favorites() {
                       {book.title}
                     </p>
                   </Link>
-                  <p className="text-gray-400">By {book.authors.join(", ")}</p>
+                  <p className="text-gray-400">
+                    By {book.authors ? book.authors.join(", ") : ""}
+                  </p>
                   <button
-                    className="bg-transparent border border-white rounded-full px-2 py-1 text-sm font-semibold mt-4"
-                    disabled
+                    className="bg-transparent border border-white rounded-full px-2 py-1 text-sm font-semibold mt-4 mr-4"
+                    onClick={() => handleRemoveFavorite(book.id)}
                   >
                     <BsFillBookmarkHeartFill className="inline-block fill-current text-gray-900 w-6 h-6 " />
                     Favorite
+                  </button>
+                  <button
+                    className="absolute top-0 right-0 mt-2 mr-2 p-1 rounded-full bg-gray-200 hover:bg-gray-300"
+                    onClick={async () => {
+                      await handleRemoveFavorite(book.id);
+                    }}
+                  >
+                    <AiOutlineClose className="inline-block fill-current text-gray-900 w-6 h-6" />
                   </button>
                 </div>
               </li>
