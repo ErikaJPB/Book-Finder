@@ -3,9 +3,17 @@ import { useState } from "react";
 import { auth, firestore, collection, addDoc } from "../../firebase";
 import { BsFillBookmarkHeartFill } from "react-icons/bs";
 import { BsSearch } from "react-icons/bs";
+import { useRouter } from "next/router";
 
-async function addToFavorites(bookId: string) {
+async function addToFavorites(bookId: string, router: any) {
   const userId = auth.currentUser?.uid;
+
+  if (!userId) {
+    alert("You must be logged in to add a book to your favorites.");
+
+    router.push("/login");
+    return;
+  }
 
   const favoritesRef = collection(firestore, "favorites");
 
@@ -23,9 +31,11 @@ interface Book {
   thumbnail: string;
 }
 
-const BookCove = () => {
+function BookCove() {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState<Book[]>([]);
+
+  const router = useRouter();
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
@@ -94,7 +104,7 @@ const BookCove = () => {
               <div className="p-6 flex-grow">
                 <h2 className="text-lg font-bold">{book.title}</h2>
                 <p className="text-gray-600">By {book.authors.join(", ")}</p>
-                <button onClick={() => addToFavorites(book.id)}>
+                <button onClick={() => addToFavorites(book.id, router)}>
                   <BsFillBookmarkHeartFill className="inline-block fill-current text-gray-900 w-6 h-6 " />
                 </button>
                 <p className="mt-4 text-sm text-gray-900 leading-snug">
@@ -107,6 +117,6 @@ const BookCove = () => {
       )}
     </div>
   );
-};
+}
 
 export default BookCove;
