@@ -11,6 +11,12 @@ import {
 import { BsFillBookmarkHeartFill } from "react-icons/bs";
 import { AiOutlineClose } from "react-icons/ai";
 import Link from "next/link";
+import {
+  getFavorites,
+  getBookDetails,
+  removeFavorite,
+  fetchFavorites,
+} from "../utils/favorites";
 
 type Book = {
   id: string;
@@ -18,56 +24,6 @@ type Book = {
   authors: string[];
   thumbnail: string;
 };
-
-async function getFavorites(userId: string) {
-  const favoritesRef = collection(firestore, "favorites");
-  const q = query(favoritesRef, where("userId", "==", userId));
-  const querySnapshot = await getDocs(q);
-  const favorites = querySnapshot.docs.map((doc) => doc.data().bookId);
-  return favorites;
-}
-
-async function getBookDetails(bookId: string): Promise<Book> {
-  const url = `https://www.googleapis.com/books/v1/volumes/${bookId}`;
-  const response = await fetch(url);
-  const data = await response.json();
-
-  const book = {
-    id: bookId,
-    title: data.volumeInfo.title,
-    authors: data.volumeInfo.authors || [],
-    thumbnail: data.volumeInfo.imageLinks?.thumbnail || "",
-  };
-  return book;
-}
-
-async function removeFavorite(bookId: string) {
-  const userId = auth.currentUser?.uid;
-  console.log("userId:", userId);
-
-  // Verificar que el documento pertenece al usuario autenticado antes de eliminarlo
-  const favoritesRef = collection(firestore, "favorites");
-  const q = query(
-    favoritesRef,
-    where("bookId", "==", bookId),
-    where("userId", "==", userId)
-  );
-  const querySnapshot = await getDocs(q);
-  if (querySnapshot.empty) {
-    console.log(`Favorite ${bookId} not found for user ${userId}`);
-    return;
-  }
-  const docToDelete = querySnapshot.docs[0].ref;
-
-  await deleteDoc(docToDelete);
-  console.log(`Removed favorite ${bookId} for user ${userId}`);
-}
-
-export async function fetchFavorites(userId: string) {
-  const bookIds = await getFavorites(userId);
-  const bookDetails = await Promise.all(bookIds.map(getBookDetails));
-  return bookDetails;
-}
 
 function Favorites() {
   const [favorites, setFavorites] = useState<Book[]>([]);

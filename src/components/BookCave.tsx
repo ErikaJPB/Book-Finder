@@ -1,27 +1,9 @@
 import Image from "next/image";
 import { useState } from "react";
-import { auth, firestore, collection, addDoc } from "../../firebase";
 import { BsFillBookmarkHeartFill } from "react-icons/bs";
 import { BsSearch } from "react-icons/bs";
 import { useRouter } from "next/router";
-
-async function addToFavorites(bookId: string, router: any) {
-  const userId = auth.currentUser?.uid;
-
-  if (!userId) {
-    alert("You must be logged in to add a book to your favorites.");
-
-    router.push("/login");
-    return;
-  }
-
-  const favoritesRef = collection(firestore, "favorites");
-
-  await addDoc(favoritesRef, {
-    userId: userId,
-    bookId: bookId,
-  });
-}
+import { addToFavorites } from "../utils/favorites";
 
 interface Book {
   id: string;
@@ -107,9 +89,6 @@ function BookCove() {
                 <button onClick={() => addToFavorites(book.id, router)}>
                   <BsFillBookmarkHeartFill className="inline-block fill-current text-gray-900 w-6 h-6 " />
                 </button>
-                <p className="mt-4 text-sm text-gray-900 leading-snug">
-                  {book.description}
-                </p>
               </div>
             </li>
           ))}
