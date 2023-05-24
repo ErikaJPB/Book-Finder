@@ -4,6 +4,7 @@ import { BsFillBookmarkHeartFill } from "react-icons/bs";
 import { BsSearch } from "react-icons/bs";
 import { useRouter } from "next/router";
 import { addToFavorites } from "../utils/favorites";
+import Pagination from "./Pagination";
 
 interface Book {
   id: string;
@@ -16,6 +17,8 @@ interface Book {
 function BookCove() {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState<Book[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [booksPerPage, setBooksPerPage] = useState(10);
 
   const router = useRouter();
 
@@ -25,7 +28,9 @@ function BookCove() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const url = `https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&key=${process.env.NEXT_PUBLIC_GOOGLE_BOOKS_API_KEY}`;
+    const maxResults = 40;
+    const startIdx = (currentPage - 1) * maxResults;
+    const url = `https://www.googleapis.com/books/v1/volumes?q=${searchTerm}&startIndex=${startIdx}&maxResults=${maxResults}&key=${process.env.NEXT_PUBLIC_GOOGLE_BOOKS_API_KEY}`;
     const response = await fetch(url);
     const data = await response.json();
     setSearchResults(
@@ -37,6 +42,15 @@ function BookCove() {
         thumbnail: item.volumeInfo.imageLinks?.thumbnail || "",
       }))
     );
+    setCurrentPage(1);
+  };
+
+  const indexOfLastBook = currentPage * booksPerPage;
+  const indexOfFirstBook = indexOfLastBook - booksPerPage;
+  const currentBooks = searchResults.slice(indexOfFirstBook, indexOfLastBook);
+
+  const paginate = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
   };
 
   return (
@@ -64,8 +78,8 @@ function BookCove() {
         </div>
       </form>
       {searchResults.length > 0 && (
-        <ul className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-          {searchResults?.map((book) => (
+        <ul className="mt-8 ml-8 mr-8 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+          {currentBooks?.map((book) => (
             <li
               key={book.id}
               className="flex m-2 bg-white rounded-lg overflow-hidden shadow-lg"
@@ -94,6 +108,14 @@ function BookCove() {
           ))}
         </ul>
       )}
+      <div>
+        <Pagination
+          booksPerPage={booksPerPage}
+          totalBooks={searchResults.length}
+          paginate={paginate}
+          currentPage={currentPage}
+        />
+      </div>
     </div>
   );
 }
