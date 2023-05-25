@@ -1,11 +1,7 @@
 import React, { useState } from "react";
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithPopup,
-  GoogleAuthProvider,
-} from "firebase/auth";
+import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { auth } from "../../firebase";
+import { toast } from "react-toastify";
 
 interface SignUpState {
   displayName: string;
@@ -30,9 +26,9 @@ function SignUp() {
     try {
       const provider = new GoogleAuthProvider();
       await signInWithPopup(auth, provider);
-      console.log("Sign Up with Google Successful");
+      toast.success("Sign Up with Google Successful");
     } catch (error) {
-      console.error("Error signing up with Google", error);
+      toast.error("Error signing up with Google");
     }
   };
 

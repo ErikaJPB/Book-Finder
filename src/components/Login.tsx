@@ -2,6 +2,7 @@ import { useState } from "react";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { auth } from "../../firebase";
 import { useRouter } from "next/router";
+import { toast } from "react-toastify";
 
 function Login() {
   const router = useRouter();
@@ -10,10 +11,15 @@ function Login() {
     try {
       const provider = new GoogleAuthProvider();
       await signInWithPopup(auth, provider);
-      console.log("Login with Google Successful");
+      toast.success("Login with Google Successful", {
+        position: "bottom-right",
+        autoClose: 3000,
+      });
       router.push("/profile");
     } catch (error) {
-      console.error("Error logging in with Google:", error);
+      toast.error(
+        "Try Again, There was an error logging in into your Google Account"
+      );
     }
   };
 

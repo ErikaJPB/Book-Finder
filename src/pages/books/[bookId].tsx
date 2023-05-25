@@ -28,6 +28,8 @@ function BookDetails({ bookDetails, favorites }: any) {
         height={90}
       />
       <p>{bookDetails.description}</p>
+      <p>{bookDetails.publisher}</p>
+      <p>{bookDetails.publishedDate}</p>
     </div>
   );
 }

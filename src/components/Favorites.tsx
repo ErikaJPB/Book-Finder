@@ -17,12 +17,15 @@ import {
   removeFavorite,
   fetchFavorites,
 } from "../utils/favorites";
+import Image from "next/image";
 
 type Book = {
   id: string;
   title: string;
   authors: string[];
   thumbnail: string;
+  publisher?: string;
+  publishedDate?: string;
 };
 
 function Favorites() {
@@ -71,8 +74,11 @@ function Favorites() {
                 {book.thumbnail && (
                   <div className="w-full h-40">
                     <Link href={`/books/${book.id}`}>
-                      <img
+                      <Image
                         src={book.thumbnail}
+                        height={100}
+                        width={100}
+                        quality={100}
                         alt={book.title}
                         className="rounded-t-lg w-full h-full object-cover"
                       />
@@ -89,6 +95,8 @@ function Favorites() {
                   <p className="text-gray-400">
                     By {book.authors ? book.authors.join(", ") : ""}
                   </p>
+                  <p>Publisher: {book.publisher}</p>
+                  <p>Published: {book.publishedDate}</p>
                   <button
                     className="bg-transparent border border-white rounded-full px-2 py-1 text-sm font-semibold mt-4 mr-4"
                     onClick={() => handleRemoveFavorite(book.id)}

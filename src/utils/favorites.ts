@@ -1,12 +1,12 @@
 import { auth, firestore, collection, addDoc } from "../../firebase";
 import { query, where, getDocs, doc, deleteDoc } from "firebase/firestore";
+import { toast } from "react-toastify";
 
 export async function addToFavorites(bookId: string, router: any) {
   const userId = auth.currentUser?.uid;
 
   if (!userId) {
-    alert("You must be logged in to add a book to your favorites.");
-
+    toast.error("You must be logged in to add a book to your favorites.");
     router.push("/login");
     return;
   }
@@ -17,6 +17,7 @@ export async function addToFavorites(bookId: string, router: any) {
     userId: userId,
     bookId: bookId,
   });
+  toast.success("The book was added to your favorites");
 }
 
 export async function getFavorites(userId: string) {
@@ -32,6 +33,9 @@ type Book = {
   title: string;
   authors: string[];
   thumbnail: string;
+  description: string;
+  publisher: string;
+  publishedDate: string;
 };
 
 export async function getBookDetails(bookId: string): Promise<Book> {
@@ -46,14 +50,15 @@ export async function getBookDetails(bookId: string): Promise<Book> {
     thumbnail:
       data.volumeInfo.imageLinks?.thumbnail ||
       data.volumeInfo.imageLinks?.large,
-    description: data.volumeInfo.description || [],
+    description: data.volumeInfo.description || "",
+    publisher: data.volumeInfo.publisher || "",
+    publishedDate: data.volumeInfo.publishedDate || "",
   };
   return book;
 }
 
 export async function removeFavorite(bookId: string) {
   const userId = auth.currentUser?.uid;
-  console.log("userId:", userId);
 
   const favoritesRef = collection(firestore, "favorites");
   const q = query(
@@ -69,8 +74,9 @@ export async function removeFavorite(bookId: string) {
   const docToDelete = querySnapshot.docs[0].ref;
 
   await deleteDoc(docToDelete);
-  console.log(`Removed favorite ${bookId} for user ${userId}`);
+  toast.success("The book was removed from your favorites");
 }
+
 export async function fetchFavorites(userId: string) {
   const bookIds = await getFavorites(userId);
   const bookDetails = await Promise.all(bookIds.map(getBookDetails));

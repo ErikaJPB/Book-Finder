@@ -88,8 +88,13 @@ function BookCove() {
             <li
               key={book.id}
               className="flex m-2 bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition duration-200 ease-in-out transform hover:-translate-y-1 hover:scale-105"
-              style={{ width: "400px", height: "200px" }}
+              style={{ width: "400px", height: "220px" }}
             >
+              <div className="absolute top-0 right-0 p-2">
+                <button onClick={() => addToFavorites(book.id, router)}>
+                  <BsFillBookmarkHeartFill className="inline-block fill-current text-gray-900 w-6 h-6 " />
+                </button>
+              </div>
               {book.thumbnail ? (
                 <div className="flex-shrink-0 relative w-40 h-60">
                   <div className="w-full h-full rounded-lg overflow-hidden mx-4 my-4 py-2 px-4 mt-4">
@@ -138,10 +143,6 @@ function BookCove() {
                     Published Year: {new Date(book.publishedDate).getFullYear()}
                   </p>
                 )}
-
-                <button onClick={() => addToFavorites(book.id, router)}>
-                  <BsFillBookmarkHeartFill className="inline-block fill-current text-gray-900 w-6 h-6 " />
-                </button>
               </div>
             </li>
           ))}
