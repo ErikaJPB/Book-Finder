@@ -1,4 +1,6 @@
 import { FC } from "react";
+import { IoChevronBack } from "react-icons/io5";
+import { IoChevronForward } from "react-icons/io5";
 
 interface PaginationProps {
   currentPage: number;
@@ -32,13 +34,16 @@ const Pagination: FC<PaginationProps> = ({
 
   return (
     <div className="flex justify-center mt-4">
-      <button
-        className="px-3 py-1 rounded-l border border-gray-300 bg-white hover:bg-gray-400"
-        onClick={handlePrevBtn}
-        disabled={currentPage === 1}
-      >
-        Prev
-      </button>
+      {pageNumbers.length > 1 && (
+        <button
+          className="px-3 py-1 rounded-l border border-gray-300 bg-white hover:bg-gray-400"
+          onClick={handlePrevBtn}
+          disabled={currentPage === 1}
+        >
+          <IoChevronBack />
+        </button>
+      )}
+
       {pageNumbers.map((pageNumber) => (
         <button
           key={pageNumber}
@@ -50,13 +55,15 @@ const Pagination: FC<PaginationProps> = ({
           {pageNumber}
         </button>
       ))}
-      <button
-        className="px-3 py-1 rounded-r border border-gray-300 bg-white hover:bg-gray-400"
-        onClick={handleNextBtn}
-        disabled={currentPage === pageNumbers.length}
-      >
-        Next
-      </button>
+      {pageNumbers.length > 1 && (
+        <button
+          className="px-3 py-1 rounded-r border border-gray-300 bg-white hover:bg-gray-400"
+          onClick={handleNextBtn}
+          disabled={currentPage === pageNumbers.length}
+        >
+          <IoChevronForward />
+        </button>
+      )}
     </div>
   );
 };
