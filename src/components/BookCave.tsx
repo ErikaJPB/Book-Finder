@@ -37,7 +37,7 @@ function BookCove() {
     const response = await fetch(url);
     const data = await response.json();
     setSearchResults(
-      data.items.map((item: any) => ({
+      data.items?.map((item: any) => ({
         id: item.id,
         title: item.volumeInfo.title,
         authors: item.volumeInfo.authors || [],
