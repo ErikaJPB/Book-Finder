@@ -36,6 +36,9 @@ type Book = {
   description: string;
   publisher: string;
   publishedDate: string;
+  averageRating: number;
+  pageCount: number;
+  categories: string[];
 };
 
 export async function getBookDetails(bookId: string): Promise<Book> {
@@ -53,6 +56,9 @@ export async function getBookDetails(bookId: string): Promise<Book> {
     description: data.volumeInfo.description || "",
     publisher: data.volumeInfo.publisher || "",
     publishedDate: data.volumeInfo.publishedDate || "",
+    averageRating: data.volumeInfo.averageRating || 0,
+    pageCount: data.volumeInfo.pageCount || 0,
+    categories: data.volumeInfo.categories || [],
   };
   return book;
 }

@@ -45,6 +45,9 @@ function BookCove() {
         thumbnail: item.volumeInfo.imageLinks?.thumbnail || "",
         publisher: item.volumeInfo.publisher || "",
         publishedDate: item.volumeInfo.publishedDate || "",
+        pageCount: item.volumeInfo.pageCount || "",
+        categories: item.volumeInfo.categories || [],
+        averageRating: item.volumeInfo.averageRating || "",
       }))
     );
     setCurrentPage(1);
