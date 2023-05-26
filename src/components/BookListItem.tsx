@@ -21,8 +21,8 @@ function BookListItem({
   return (
     <li
       key={book.id}
-      className="flex m-2 bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition duration-200 ease-in-out transform hover:-translate-y-1 hover:scale-105"
-      style={{ width: "420px", height: "250px" }}
+      className="flex mr-1 bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition duration-200 ease-in-out transform hover:-translate-y-1 hover:scale-105"
+      style={{ width: "350px", height: "300px" }}
     >
       {book.thumbnail ? (
         <div className="flex-shrink-0 relative w-40 h-60">
