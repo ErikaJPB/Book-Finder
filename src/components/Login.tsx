@@ -1,11 +1,22 @@
-import { useState } from "react";
-import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-import { auth } from "../../firebase";
+import { useState, useEffect } from "react";
+
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
+import { auth } from "../../firebase";
+import { onAuthStateChanged, User } from "firebase/auth";
 
 function Login() {
   const router = useRouter();
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user);
+    });
+
+    return unsubscribe;
+  }, []);
 
   const handleLoginWithGoogle = async () => {
     try {
@@ -15,6 +26,7 @@ function Login() {
         position: "bottom-right",
         autoClose: 3000,
       });
+
       router.push("/profile");
     } catch (error) {
       toast.error(

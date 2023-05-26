@@ -1,6 +1,7 @@
 import { auth, firestore, collection, addDoc } from "../../firebase";
 import { query, where, getDocs, doc, deleteDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
+import { Book } from "../types/Book";
 
 export async function addToFavorites(bookId: string, router: any) {
   const userId = auth.currentUser?.uid;
@@ -28,19 +29,6 @@ export async function getFavorites(userId: string) {
   return favorites;
 }
 
-type Book = {
-  id: string;
-  title: string;
-  authors: string[];
-  thumbnail: string;
-  description: string;
-  publisher: string;
-  publishedDate: string;
-  averageRating: number;
-  pageCount: number;
-  categories: string[];
-};
-
 export async function getBookDetails(bookId: string): Promise<Book> {
   const url = `https://www.googleapis.com/books/v1/volumes/${bookId}`;
   const response = await fetch(url);
@@ -63,9 +51,7 @@ export async function getBookDetails(bookId: string): Promise<Book> {
   return book;
 }
 
-export async function removeFavorite(bookId: string) {
-  const userId = auth.currentUser?.uid;
-
+export async function removeFavorite(userId: string, bookId: string) {
   const favoritesRef = collection(firestore, "favorites");
   const q = query(
     favoritesRef,
@@ -83,8 +69,10 @@ export async function removeFavorite(bookId: string) {
   toast.success("The book was removed from your favorites");
 }
 
-export async function fetchFavorites(userId: string) {
-  const bookIds = await getFavorites(userId);
-  const bookDetails = await Promise.all(bookIds.map(getBookDetails));
-  return bookDetails;
+export async function fetchFavorites() {
+  const userId = auth.currentUser?.uid;
+  if (!userId) {
+    console.log("User ID not found.");
+    return [];
+  }
 }

@@ -6,16 +6,7 @@ import { useRouter } from "next/router";
 import { addToFavorites } from "../utils/favorites";
 import Pagination from "./Pagination";
 import nocover from "../../public/nocover.jpg";
-
-interface Book {
-  id: string;
-  title: string;
-  authors: string[];
-  description: string;
-  thumbnail: string;
-  publisher?: string;
-  publishedDate?: string;
-}
+import { Book } from "../types/Book";
 
 function BookCove() {
   const [searchTerm, setSearchTerm] = useState("");

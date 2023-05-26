@@ -8,7 +8,6 @@ import Image from "next/image";
 
 function NavBar() {
   const router = useRouter();
-  const { currentUser } = auth;
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const handleSignOut = async () => {
@@ -21,12 +20,17 @@ function NavBar() {
   };
 
   useEffect(() => {
-    if (currentUser) {
-      setIsAuthenticated(true);
-    } else {
-      setIsAuthenticated(false);
-    }
-  }, [currentUser]);
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        setIsAuthenticated(true);
+      } else {
+        setIsAuthenticated(false);
+      }
+    });
+
+    // Unsubscribe from the listener when the component unmounts
+    return unsubscribe;
+  }, []);
 
   return (
     <nav className="bg-gray-800">
@@ -77,7 +81,7 @@ function NavBar() {
                 About
               </Link>
 
-              {currentUser ? (
+              {auth.currentUser ? (
                 <SignOut onSignOut={handleSignOut} />
               ) : (
                 <>
@@ -131,7 +135,7 @@ function NavBar() {
             About
           </Link>
 
-          {currentUser ? (
+          {auth.currentUser ? (
             <SignOut onSignOut={handleSignOut} />
           ) : (
             <>

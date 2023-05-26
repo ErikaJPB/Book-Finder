@@ -1,5 +1,9 @@
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import {
+  getAuth,
+  setPersistence,
+  browserLocalPersistence,
+} from "firebase/auth";
 import {
   getFirestore,
   collection,
@@ -21,5 +25,13 @@ const app = initializeApp(firebaseConfig);
 
 const auth = getAuth(app);
 const firestore = getFirestore(app);
+
+setPersistence(auth, browserLocalPersistence)
+  .then(() => {
+    console.log("Local persistence enabled");
+  })
+  .catch((error) => {
+    console.error(error);
+  });
 
 export { auth, firestore, collection, addDoc, deleteDoc };

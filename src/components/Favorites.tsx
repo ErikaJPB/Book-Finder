@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { Book } from "../types/Book";
-
 import { auth } from "../../firebase";
 import {
   getFavorites,
@@ -38,8 +37,7 @@ function Favorites() {
       console.log("No user is currently logged in.");
       return;
     }
-
-    await removeFavorite(bookId);
+    await removeFavorite(userId, bookId);
     const updatedFavorites = favorites.filter((book) => book.id !== bookId);
     setFavorites(updatedFavorites);
   };

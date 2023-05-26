@@ -1,28 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { getAuth, User } from "firebase/auth";
+import { auth } from "../../firebase";
 
 function Profile() {
-  const auth = getAuth();
-  const user: User | null = auth.currentUser;
+  const [displayName, setDisplayName] = useState<string | null>(null);
+  const [email, setEmail] = useState<string | null>(null);
+  const [photoURL, setPhotoURL] = useState<string | null>(null);
 
-  let displayName: string | null | undefined;
-  let email: string | null | undefined;
-  let photoURL: string | null | undefined;
-
-  if (user !== null) {
-    displayName = user.displayName;
-    email = user.email;
-    photoURL = user.photoURL;
-
-    user.providerData.forEach((provider) => {
-      if (provider.providerId === "google.com") {
-        displayName = provider.displayName;
-        email = provider.email;
-        photoURL = provider.photoURL;
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        setDisplayName(user.displayName);
+        setEmail(user.email);
+        setPhotoURL(user.photoURL);
       }
     });
-  }
+
+    return unsubscribe;
+  }, []);
 
   return (
     <div className="min-h-screen bg-white flex flex-col justify-center sm:px-6 lg:px-8">
@@ -38,23 +33,28 @@ function Profile() {
             <div className="flex items-center justify-center mb-4">
               <div className="relative w-20 h-20">
                 <div className="absolute inset-0 rounded-full"></div>
-                <Image
-                  src={photoURL ?? "/default-image.jpg"}
-                  alt="Not Found"
-                  width={100}
-                  height={100}
-                  quality={90}
-                  className="rounded-full"
-                />
+                {photoURL ? (
+                  <Image
+                    src={photoURL}
+                    alt="Not Found"
+                    width={100}
+                    height={100}
+                    quality={90}
+                    className="rounded-full"
+                  />
+                ) : (
+                  <div className="w-full h-full rounded-full bg-gray-300"></div>
+                )}
               </div>
             </div>
+
             <div className="text-center">
               <p className="text-gray-700 font-bold mb-2">Name:</p>
-              <p className="text-gray-700 mb-4">{displayName ?? "No Name"}</p>
+              <p className="text-gray-700 mb-4">{displayName || "No Name"}</p>
             </div>
             <div className="text-center">
               <p className="text-gray-700 font-bold mb-2">Email:</p>
-              <p className="text-gray-700 mb-4">{email ?? "No Email"}</p>
+              <p className="text-gray-700 mb-4">{email || "No Email"}</p>
             </div>
           </div>
         </div>
