@@ -124,7 +124,7 @@ function BookCove() {
                   {book.title}
                 </h2>
                 <p className="text-sm font-light text-gray-600">
-                  By {book.authors.join(", ")}
+                  By {book.authors?.join(", ")}
                 </p>
 
                 {book.publisher && (
