@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { auth } from "../../firebase";
 import { toast } from "react-toastify";
+import { useRouter } from "next/router";
 
 interface SignUpState {
   displayName: string;
@@ -9,6 +10,8 @@ interface SignUpState {
 }
 
 function SignUp() {
+  const router = useRouter();
+
   const [signUpState, setSignUpState] = useState<SignUpState>({
     displayName: "",
     email: "",
@@ -27,6 +30,7 @@ function SignUp() {
       const provider = new GoogleAuthProvider();
       await signInWithPopup(auth, provider);
       toast.success("Sign Up with Google Successful");
+      router.push("/profile");
     } catch (error) {
       toast.error("Error signing up with Google");
     }
