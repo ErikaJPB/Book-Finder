@@ -6,8 +6,7 @@ import {
   getBookDetails,
   removeFavorite,
 } from "../utils/favorites";
-import Image from "next/image";
-import nocover from "../../public/nocover.jpg";
+
 import BookListItem from "../components/BookListItem";
 import BookDetailsModal from "./BookDetailsModal";
 

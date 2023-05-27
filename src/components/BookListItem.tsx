@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { AiFillCloseSquare } from "react-icons/ai";
 import { Book } from "../types/Book";
-import nocover from "../../public/nocover.jpg";
+import nocover from "../assets/nocover.jpg";
 
 interface BookListItemProps {
   book: Book;

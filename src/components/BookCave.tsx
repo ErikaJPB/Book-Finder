@@ -5,7 +5,7 @@ import { BsSearch } from "react-icons/bs";
 import { useRouter } from "next/router";
 import { addToFavorites } from "../utils/favorites";
 import Pagination from "./Pagination";
-import nocover from "../../public/nocover.jpg";
+import nocover from "../assets/nocover.jpg";
 import { Book } from "../types/Book";
 
 function BookCove() {

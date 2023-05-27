@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import SignOut from "./SignOut";
 import { auth } from "../../firebase";
-import bookIcon from "../../public/bookIcon.png";
+import bookIcon from "../assets/bookIcon.png";
 import Image from "next/image";
 
 function NavBar() {
