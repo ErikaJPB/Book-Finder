@@ -29,8 +29,8 @@ function SignUp() {
     try {
       const provider = new GoogleAuthProvider();
       await signInWithPopup(auth, provider);
-      toast.success("Sign Up with Google Successful");
       router.push("/profile");
+      toast.success("Sign Up with Google Successful");
     } catch (error) {
       toast.error("Error signing up with Google");
     }
