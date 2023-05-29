@@ -33,9 +33,9 @@ function NavBar() {
   }, []);
 
   return (
-    <nav className="bg-gray-800">
-      <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 flex items-center justify-between h-16">
-        <div className="flex items-center">
+    <nav className="bg-gray-800  ">
+      <div className=" mx-2  px-2 sm:px-6 lg:px-10 flex items-center justify-between h-20 max-w-full ">
+        <div className="flex items-center ">
           <div className="relative w-8 h-8 mr-2">
             <Image
               src={bookIcon}
@@ -45,23 +45,23 @@ function NavBar() {
             />
           </div>
           <Link href="/">
-            {/* Logo o nombre de la aplicación */}
             <button className="text-white text-2xl font-bold">BookCove</button>
           </Link>
         </div>
-        <div className="flex items-center">
-          <div className="hidden sm:block sm:ml-6">
-            <div className="flex space-x-4">
+
+        <div className="flex items-center justify-end flex-1 w-full">
+          <div className="hidden sm:block mr-10">
+            <div className="flex space-x-4 ">
               <Link
                 href="/"
-                className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-lg font-large"
               >
                 Search
               </Link>
               {isAuthenticated && (
                 <Link
                   href="/favorites"
-                  className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                  className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-lg font-large"
                 >
                   Favorites
                 </Link>
@@ -69,14 +69,14 @@ function NavBar() {
               {isAuthenticated && (
                 <Link
                   href="/profile"
-                  className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                  className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-lg font-large"
                 >
                   Profile
                 </Link>
               )}
               <Link
                 href="/about"
-                className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-lg font-large"
               >
                 About
               </Link>
@@ -87,14 +87,14 @@ function NavBar() {
                 <>
                   <Link
                     href="/login"
-                    className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                    className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-lg font-large"
                   >
                     Login
                   </Link>
 
                   <Link
                     href="/signup"
-                    className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                    className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-large font-large"
                   >
                     Sign Up
                   </Link>
