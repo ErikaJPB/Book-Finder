@@ -50,8 +50,8 @@ function Favorites() {
   };
 
   return (
-    <div className="bg-white text-gray-700 py-8">
-      <div className="container mx-auto ">
+    <div className="bg-white text-gray-700 py-8 w-full">
+      <div className="container">
         <h1 className="text-3xl font-bold mb-8 text-center">Favorite Books</h1>
         {isLoading ? (
           <p className="text-center text-gray-700">Loading favorites...</p>

@@ -34,7 +34,7 @@ function NavBar() {
 
   return (
     <nav className="bg-gray-800  ">
-      <div className=" mx-2  px-2 sm:px-6 lg:px-10 flex items-center justify-between h-20 max-w-full ">
+      <div className=" mx-2  px-2 sm:px-2 lg:px-10 flex items-center justify-between h-20 max-w-full ">
         <div className="flex items-center ">
           <div className="relative w-8 h-8 mr-2">
             <Image
