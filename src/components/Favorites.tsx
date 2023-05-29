@@ -71,7 +71,9 @@ function Favorites() {
             ))}
           </ul>
         ) : (
-          <p>No favorites yet</p>
+          <p className="text-center items-center text-gray-700">
+            No favorites yet
+          </p>
         )}
 
         <BookDetailsModal book={selectedBook} onClose={handleCloseModal} />
