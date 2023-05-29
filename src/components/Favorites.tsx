@@ -51,10 +51,14 @@ function Favorites() {
 
   return (
     <div className="bg-white text-gray-700 py-8 w-full">
-      <div className="container">
-        <h1 className="text-3xl font-bold mb-8 text-center">Favorite Books</h1>
+      <div className="container max-w-full">
+        <h1 className="text-3xl font-bold mb-8 text-center items-center">
+          Favorite Books
+        </h1>
         {isLoading ? (
-          <p className="text-center text-gray-700">Loading favorites...</p>
+          <p className="text-center items-center text-gray-700">
+            Loading favorites...
+          </p>
         ) : favorites.length > 0 ? (
           <ul className="mt-8 mx-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
             {favorites.map((book) => (
