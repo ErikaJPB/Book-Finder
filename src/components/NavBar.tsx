@@ -5,10 +5,12 @@ import SignOut from "./SignOut";
 import { auth } from "../../firebase";
 import bookIcon from "../../public/bookIcon.png";
 import Image from "next/image";
+import { FiMenu } from "react-icons/fi";
 
 function NavBar() {
   const router = useRouter();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const handleSignOut = async () => {
     try {
@@ -32,6 +34,10 @@ function NavBar() {
     return unsubscribe;
   }, []);
 
+  const handleMenuClick = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
   return (
     <nav className="bg-gray-800  ">
       <div className=" mx-2  px-2 sm:px-2 lg:px-10 flex items-center justify-between h-20 max-w-full ">
@@ -48,113 +54,125 @@ function NavBar() {
             <button className="text-white text-2xl font-bold">BookCove</button>
           </Link>
         </div>
+        <div className="flex items-center">
+          <FiMenu
+            className="text-white text-3xl ml-2"
+            onClick={handleMenuClick}
+          />
+        </div>
+      </div>
 
-        <div className="flex items-center justify-end flex-1 w-full">
-          <div className="hidden sm:block mr-10">
-            <div className="flex space-x-4 ">
+      <div className="flex items-center justify-end flex-1 w-full">
+        <div className="hidden sm:block mr-10">
+          <div className="flex space-x-4 ">
+            <Link
+              href="/"
+              className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-lg font-large"
+            >
+              Search
+            </Link>
+            {isAuthenticated && (
               <Link
-                href="/"
+                href="/favorites"
                 className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-lg font-large"
               >
-                Search
+                Favorites
               </Link>
-              {isAuthenticated && (
-                <Link
-                  href="/favorites"
-                  className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-lg font-large"
-                >
-                  Favorites
-                </Link>
-              )}
-              {isAuthenticated && (
-                <Link
-                  href="/profile"
-                  className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-lg font-large"
-                >
-                  Profile
-                </Link>
-              )}
+            )}
+            {isAuthenticated && (
               <Link
-                href="/about"
+                href="/profile"
                 className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-lg font-large"
               >
-                About
+                Profile
               </Link>
+            )}
+            <Link
+              href="/about"
+              className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-lg font-large"
+            >
+              About
+            </Link>
 
-              {auth.currentUser ? (
-                <SignOut onSignOut={handleSignOut} />
-              ) : (
-                <>
-                  <Link
-                    href="/login"
-                    className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-lg font-large"
-                  >
-                    Login
-                  </Link>
+            {auth.currentUser ? (
+              <SignOut onSignOut={handleSignOut} />
+            ) : (
+              <>
+                <Link
+                  href="/login"
+                  className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-lg font-large"
+                >
+                  Login
+                </Link>
 
-                  <Link
-                    href="/signup"
-                    className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-large font-large"
-                  >
-                    Sign Up
-                  </Link>
-                </>
-              )}
-            </div>
+                <Link
+                  href="/signup"
+                  className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-large font-large"
+                >
+                  Sign Up
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </div>
-      <div className="sm:hidden" id="mobile-menu">
-        <div className="px-2 pt-2 pb-3 space-y-1">
-          <Link
-            href="/"
-            className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-          >
-            Search
-          </Link>
-          {isAuthenticated && (
-            <Link
-              href="/favorites"
-              className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-            >
-              Favorites
-            </Link>
-          )}
-          {isAuthenticated && (
-            <Link
-              href="/profile"
-              className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-            >
-              Profile
-            </Link>
-          )}
-          <Link
-            href="/about"
-            className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-          >
-            About
-          </Link>
 
-          {auth.currentUser ? (
-            <SignOut onSignOut={handleSignOut} />
-          ) : (
-            <>
+      {isMobileMenuOpen && (
+        <div
+          className="sm:hidden flex flex-col items-center text-center"
+          id="mobile-menu"
+        >
+          <div className="px-2 pt-2 pb-3 space-y-1">
+            <Link
+              href="/"
+              className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+            >
+              Search
+            </Link>
+            {isAuthenticated && (
               <Link
-                href="/login"
+                href="/favorites"
                 className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
               >
-                Login
+                Favorites
               </Link>
+            )}
+            {isAuthenticated && (
               <Link
-                href="/signup"
+                href="/profile"
                 className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
               >
-                Sign Up
+                Profile
               </Link>
-            </>
-          )}
+            )}
+            <Link
+              href="/about"
+              className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+            >
+              About
+            </Link>
+
+            {auth.currentUser ? (
+              <SignOut onSignOut={handleSignOut} />
+            ) : (
+              <>
+                <Link
+                  href="/login"
+                  className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+                >
+                  Login
+                </Link>
+                <Link
+                  href="/signup"
+                  className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+                >
+                  Sign Up
+                </Link>
+              </>
+            )}
+          </div>
         </div>
-      </div>
+      )}
     </nav>
   );
 }

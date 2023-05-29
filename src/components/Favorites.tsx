@@ -56,7 +56,7 @@ function Favorites() {
         {isLoading ? (
           <p className="text-center text-gray-700">Loading favorites...</p>
         ) : favorites.length > 0 ? (
-          <ul className="mt-8 ml-8 mr-8 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+          <ul className="mt-8 mx-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
             {favorites.map((book) => (
               <BookListItem
                 key={book.id}
