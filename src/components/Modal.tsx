@@ -12,16 +12,15 @@ function Modal({ isOpen, onClose, children }: ModalProps) {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex justify-center items-center">
-      <div className="w-[1200px]  flex flex-col">
-        <button
-          className=" rounded-full bg-transparent place-self-end"
-          onClick={onClose}
-        >
-          <AiFillCloseSquare className="inline-block fill-current text-white-900 w-6 h-6 text-white" />
-        </button>
+      <div className="w-full max-w-md flex flex-col h-full overflow-hidden">
+        <div className="flex justify-end">
+          <button className="rounded-full bg-transparent" onClick={onClose}>
+            <AiFillCloseSquare className="inline-block fill-current text-white-900 w-6 h-6 text-white" />
+          </button>
+        </div>
 
-        <div className="bg-white rounded-lg p-2 m-2 sm:overflow-y-auto">
-          {children}
+        <div className="bg-white rounded-lg p-2 m-2 h-full overflow-y-auto">
+          <div className="h-full">{children}</div>
         </div>
       </div>
     </div>
