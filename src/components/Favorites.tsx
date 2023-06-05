@@ -9,6 +9,7 @@ import {
 
 import BookListItem from "../components/BookListItem";
 import BookDetailsModal from "./BookDetailsModal";
+import { FaSpinner } from "react-icons/fa";
 
 function Favorites() {
   const [favorites, setFavorites] = useState<Book[]>([]);
@@ -56,9 +57,9 @@ function Favorites() {
           Favorite Books
         </h1>
         {isLoading ? (
-          <p className="text-center items-center text-gray-700">
-            Loading favorites...
-          </p>
+          <div className="flex justify-center items-center">
+            <FaSpinner className="animate-spin h-5 w-5 text-gray-700" />
+          </div>
         ) : favorites.length > 0 ? (
           <ul className="mt-8 mx-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
             {favorites.map((book) => (
@@ -71,9 +72,15 @@ function Favorites() {
             ))}
           </ul>
         ) : (
-          <p className="text-center items-center text-gray-700">
-            No favorites yet
-          </p>
+          <div className="flex flex-col items-center justify-center mt-8">
+            <p className="text-center text-gray-700 text-lg font-medium mb-2">
+              No favorites yet
+            </p>
+            <p className="text-center text-gray-500">
+              You haven't added any books to your favorites yet. Start exploring
+              and add some books to your list!
+            </p>
+          </div>
         )}
 
         <BookDetailsModal book={selectedBook} onClose={handleCloseModal} />
