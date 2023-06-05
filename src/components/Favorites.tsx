@@ -77,8 +77,7 @@ function Favorites() {
               No favorites yet
             </p>
             <p className="text-center text-gray-500">
-              You haven't added any books to your favorites yet. Start exploring
-              and add some books to your list!
+              You haven&apos;t added any books to your favorites yet.
             </p>
           </div>
         )}
