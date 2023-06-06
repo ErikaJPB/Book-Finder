@@ -143,7 +143,7 @@ function BookCove() {
         </ul>
       )}
 
-      <div>
+      <div className="mb-8 mt-4">
         <Pagination
           booksPerPage={booksPerPage}
           totalBooks={searchResults.length}
