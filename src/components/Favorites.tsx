@@ -61,7 +61,7 @@ function Favorites() {
             <FaSpinner className="animate-spin h-5 w-5 text-gray-700" />
           </div>
         ) : favorites.length > 0 ? (
-          <ul className="mt-8 mx-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+          <ul className="mt-8 mb-10 ml-12 py-6 px-6 grid gap-4 space-y-2 md:grid-cols-2 xl:grid-cols-4">
             {favorites.map((book) => (
               <BookListItem
                 key={book.id}
